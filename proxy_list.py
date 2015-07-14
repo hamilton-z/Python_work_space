@@ -3,7 +3,9 @@
 __author__ = 'hamilton'
 
 import urllib,urllib2
-from bs4 import BeautifulSoup
+import BeautifulSoup
+import re
+import os
 
 url = 'http://pachong.org/'
 
@@ -20,8 +22,11 @@ headers = {
 req = urllib2.Request(url,headers)
 res = urllib2.urlopen(url,timeout=5)
 html = res.read()
-print html
-soup = BeautifulSoup(html)
-# rsp = soup.find_all('tr',{'class':'odd'})
+soup = BeautifulSoup.BeautifulSoup(html)
+rsp = soup.findAll('td',text=re.compile('\d+\.\d+\.\d+\.\d+'))
+calc = soup.find('script',text=re.compile('\d+'))
+result = calc.replace('var ','').split(';')
+for rl in result:
+    print os.popen(rl)
 # rsp1 = soup.find_all('tr',{'class':'even'})
 # print rsp
